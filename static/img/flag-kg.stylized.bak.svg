@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 300">
+  <!-- Государственный флаг КР (стилизация; для тиража заменить официальным файлом) -->
+  <rect width="500" height="300" fill="#E8112D"/>
+  <defs>
+    <polygon id="ray" points="0,-92 8,-64 -8,-64" fill="#FFEF00"/>
+  </defs>
+  <g transform="translate(250,150)">
+    <use href="#ray"/><use href="#ray" transform="rotate(9)"/><use href="#ray" transform="rotate(18)"/><use href="#ray" transform="rotate(27)"/><use href="#ray" transform="rotate(36)"/><use href="#ray" transform="rotate(45)"/><use href="#ray" transform="rotate(54)"/><use href="#ray" transform="rotate(63)"/><use href="#ray" transform="rotate(72)"/><use href="#ray" transform="rotate(81)"/><use href="#ray" transform="rotate(90)"/><use href="#ray" transform="rotate(99)"/><use href="#ray" transform="rotate(108)"/><use href="#ray" transform="rotate(117)"/><use href="#ray" transform="rotate(126)"/><use href="#ray" transform="rotate(135)"/><use href="#ray" transform="rotate(144)"/><use href="#ray" transform="rotate(153)"/><use href="#ray" transform="rotate(162)"/><use href="#ray" transform="rotate(171)"/><use href="#ray" transform="rotate(180)"/><use href="#ray" transform="rotate(189)"/><use href="#ray" transform="rotate(198)"/><use href="#ray" transform="rotate(207)"/><use href="#ray" transform="rotate(216)"/><use href="#ray" transform="rotate(225)"/><use href="#ray" transform="rotate(234)"/><use href="#ray" transform="rotate(243)"/><use href="#ray" transform="rotate(252)"/><use href="#ray" transform="rotate(261)"/><use href="#ray" transform="rotate(270)"/><use href="#ray" transform="rotate(279)"/><use href="#ray" transform="rotate(288)"/><use href="#ray" transform="rotate(297)"/><use href="#ray" transform="rotate(306)"/><use href="#ray" transform="rotate(315)"/><use href="#ray" transform="rotate(324)"/><use href="#ray" transform="rotate(333)"/><use href="#ray" transform="rotate(342)"/><use href="#ray" transform="rotate(351)"/>
+    <circle r="66" fill="#FFEF00"/>
+    <!-- Тюндюк -->
+    <circle r="42" fill="none" stroke="#E8112D" stroke-width="9"/>
+    <g stroke="#E8112D" stroke-width="7" fill="none" stroke-linecap="round">
+      <path d="M -40 -13 Q 0 -34 40 -13"/>
+      <path d="M -40 0 Q 0 -22 40 0"/>
+      <path d="M -40 13 Q 0 -9 40 13"/>
+      <path d="M -13 -40 Q -34 0 -13 40"/>
+      <path d="M 0 -40 Q -22 0 0 40"/>
+      <path d="M 13 -40 Q -9 0 13 40"/>
+    </g>
+  </g>
+</svg>

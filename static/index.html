@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Проверка книг · нормы КР</title>
+<link rel="stylesheet" href="/static/style.css?v=40">
+<script>
+/* Встроенный режим: страница открыта внутри платформы (iframe /checker?embed=1) —
+   прячем собственную шапку, кнопку «Какие нормы» оставляем. */
+if (new URLSearchParams(location.search).has("embed"))
+  document.documentElement.classList.add("embed");
+/* Тема всегда светлая (тёмная отключена по решению владельца системы). */
+</script>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+        <path d="M9 8l2.5 2.5L16 6"/>
+      </svg>
+    </span>
+    <div>
+      <h1>Проверка книг для школ</h1>
+      <p>по законодательству Кыргызской Республики</p>
+    </div>
+  </div>
+  <button class="btn btn-outline" id="lawInfoBtn">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+    Какие нормы проверяются
+  </button>
+</header>
+
+<main class="split">
+  <div class="col-left">
+  <section class="stats-grid" id="statsGrid"></section>
+
+  <section class="card">
+    <div class="card-head-row">
+      <h2 class="card-title">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        Новая проверка
+      </h2>
+      <div class="ai-inline">
+        <label class="ai-switch" aria-label="OCR-распознавание + экспертиза Claude по настройкам системы">
+          <input type="checkbox" id="aiToggle" checked>
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M3 12h3M18 12h3M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/><circle cx="12" cy="12" r="2.5"/></svg>
+          OCR и AI-анализ
+        </label>
+        <div class="subj-dd" id="subjDD">
+          <input type="hidden" id="aiSubject" value="">
+          <button type="button" class="subj-btn" id="subjBtn">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg>
+            <span id="subjLbl">Предмет: не указывать</span>
+            <svg class="subj-chev" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="subj-pop hidden" id="subjPop">
+            <div class="subj-pop-title">Предмет учебника — AI сверит с нужным стандартом</div>
+            <div class="subj-grid" id="subjGrid"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="age-bar">
+      <span class="age-lbl">Возраст читателя:</span>
+      <div class="age-grid" id="ageGrid">
+        <button class="age-card" data-age="7-10"><b>1–4 класс</b></button>
+        <button class="age-card" data-age="11-14"><b>5–8 класс</b></button>
+        <button class="age-card" data-age="15-18"><b>9–12 класс</b></button>
+        <button class="age-card selected" data-age=""><b>Не указывать</b></button>
+      </div>
+      <span class="age-hint">влияет на вердикт по возрастным ограничениям</span>
+    </div>
+
+    <div class="new-check-body">
+    <div class="cw-col">
+      <div class="agl-title">Что будет проверено</div>
+      <div class="cw-item"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m4 12.5 5.5 5.5L20 6.5"/></svg><span><b>Запрещённый контент</b>брань, насилие и другие темы — Закон КР № 185</span></div>
+      <div class="cw-item"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m4 12.5 5.5 5.5L20 6.5"/></svg><span><b>Возрастные ограничения</b>вердикт по выбранному классу читателя</span></div>
+      <div class="cw-item"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m4 12.5 5.5 5.5L20 6.5"/></svg><span><b>Стандарты КР</b>AI-экспертиза по требованиям и предмету</span></div>
+      <div class="cw-item"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m4 12.5 5.5 5.5L20 6.5"/></svg><span><b>Структура и оформление</b>полнота учебника, госстраницы, аппарат издания</span></div>
+      <div class="cw-item"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m4 12.5 5.5 5.5L20 6.5"/></svg><span><b>Три языка</b>кыргызский, русский и английский — распознавание и проверка</span></div>
+    </div>
+    <div class="upload-zone" id="dropZone">
+      <input type="file" id="fileInput" hidden>
+      <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 16.6A4.5 4.5 0 0 0 17.5 8.5h-1.2A7 7 0 1 0 4.4 14.9"/>
+        <path d="M12 12v9"/>
+        <path d="m8.5 15.5 3.5-3.5 3.5 3.5"/>
+      </svg>
+      <p class="dz-title">Перетащите книгу сюда</p>
+      <p class="dz-sub">или</p>
+      <button class="btn btn-primary" id="browseBtn">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+        Выбрать файл
+      </button>
+      <div class="format-chips">
+        <span>PDF</span><span>DOCX</span><span>FB2</span><span>EPUB</span><span>TXT</span><span>ZIP</span><span>Сканы и фото страниц</span>
+      </div>
+      <div class="dz-feats">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M4 12h16"/></svg>
+        OCR&nbsp;·&nbsp;AI-экспертиза&nbsp;·&nbsp;проверка по стандартам&nbsp;КР
+      </div>
+      <div class="progress hidden" id="progress">
+        <div class="spinner"></div>
+        <span id="progressText">Проверяем…</span>
+      </div>
+      <p class="error hidden" id="uploadError"></p>
+      <p class="upload-done hidden" id="uploadDone"></p>
+    </div>
+    </div>
+
+  </section>
+
+  </div>
+
+  <aside class="col-right">
+  <section class="card lib-fixed">
+    <div class="lib-head">
+      <h2 class="card-title">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/></svg>
+        Проверенные книги
+      </h2>
+      <div class="lib-tools">
+        <div class="search-box">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="libSearch" placeholder="Поиск по названию…">
+        </div>
+      </div>
+    </div>
+    <div class="filter-grid" id="filterGrid">
+      <button class="filter-pill selected" data-filter="all">Все</button>
+      <button class="filter-pill" data-filter="fail"><span class="dot d-fail"></span>Не прошли</button>
+      <button class="filter-pill" data-filter="review"><span class="dot d-review"></span>Ручная проверка</button>
+      <button class="filter-pill" data-filter="age"><span class="dot d-age"></span>По возрасту</button>
+      <button class="filter-pill" data-filter="pass"><span class="dot d-pass"></span>Без замечаний</button>
+    </div>
+    <div id="libraryList" class="lib-list"></div>
+  </section>
+  </aside>
+</main>
+
+<footer class="footer">
+  Закон КР № 185 от 21.07.2015 (ред. 09.08.2023) · автопроверка — предварительный фильтр, итоговое решение за человеком
+</footer>
+
+<div class="modal hidden" id="lawModal">
+  <div class="modal-box">
+    <button class="modal-close" id="lawClose" aria-label="Закрыть">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <h3>Что проверяет сервис</h3>
+    <p>Основа — <b>Закон КР № 185 от 21.07.2015</b> «О мерах по предупреждению причинения вреда здоровью детей…» (в редакции от 09.08.2023), статья 2-1.</p>
+    <h4>Запрещено для детей полностью (ч. 1):</h4>
+    <ul>
+      <li>побуждение к суициду, самоповреждению, опасным действиям;</li>
+      <li>формирование желания употребить алкоголь, табак, наркотики; азартные игры, проституция, бродяжничество;</li>
+      <li>оправдание насилия и жестокости к людям и животным;</li>
+      <li>отрицание семейных ценностей, «пропаганда нетрадиционных отношений», неуважение к родителям;</li>
+      <li>оправдание противоправного поведения;</li>
+      <li>нецензурная брань;</li>
+      <li>порнография.</li>
+    </ul>
+    <h4>Ограничено по возрасту (ч. 2):</h4>
+    <ul>
+      <li>сцены жестокости, насилия, смерти, вызывающие страх;</li>
+      <li>описание половых отношений между мужчиной и женщиной;</li>
+      <li>бранные слова, не относящиеся к нецензурным.</li>
+    </ul>
+    <p>Дополнительно: запрет экстремистских материалов (профильный закон КР) и светскость образования (Закон «Об образовании»). Запрещённая для детей продукция не допускается в школы и ближе 200 м от них (ст. 3-1 ч. 4).</p>
+    <p class="muted">Автопоиск — предварительный фильтр: он находит слова-маркеры и показывает контекст. Итоговое решение — за человеком; для учебников обязательны экспертизы Минпросвещения КР.</p>
+    <div class="modal-footer">
+      <a class="btn btn-primary" href="https://cbd.minjust.gov.kg/111229/edition/1273540/ru" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        Подробнее — полный текст закона № 185
+      </a>
+      <span class="modal-source">официальная база Минюста КР</span>
+    </div>
+  </div>
+</div>
+
+<!-- отчёт о проверке — отдельное окно, основную страницу не трогает -->
+<div class="modal hidden" id="reportModal">
+  <div class="modal-box report-box">
+    <div class="report-box-head">
+      <h3>
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h6"/></svg>
+        Отчёт о проверке
+      </h3>
+      <button class="modal-close" id="reportClose" aria-label="Закрыть отчёт">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <section class="report hidden" id="report"></section>
+  </div>
+</div>
+
+<script src="/static/app.js?v=17"></script>
+</body>
+</html>
+

@@ -1,0 +1,19 @@
+# данные рантайма — не для репозитория
+data/
+uploads/
+reports/
+__pycache__/
+*.pyc
+# сгенерированный контент (иллюстрации ИИ, обложки) — живёт вместе с БД
+static/img/ai/
+static/covers/
+# локальный тестовый мусор
+aiw.json
+body1.json
+body2.json
+body3.json
+book18.json
+page1.jpg
+page1.json
+.env
+.venv/
